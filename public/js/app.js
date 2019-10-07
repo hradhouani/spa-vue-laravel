@@ -2400,6 +2400,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var toLower = function toLower(text) {
   return text.toString().toLowerCase();
 };
@@ -39731,11 +39743,37 @@ var render = function() {
             "v-card-text",
             { staticClass: "p-4" },
             [
+              _c(
+                "v-card-title",
+                [
+                  _vm._v("\n            Nutrition\n            "),
+                  _c("div", { staticClass: "flex-grow-1" }),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      "append-icon": "search",
+                      label: "Search",
+                      "single-line": "",
+                      "hide-details": ""
+                    },
+                    model: {
+                      value: _vm.search,
+                      callback: function($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c("v-data-table", {
                 staticClass: "elevation-1",
                 attrs: {
                   headers: _vm.headers,
                   items: _vm.desserts,
+                  search: _vm.search,
                   "items-per-page": 5
                 }
               }),

@@ -8,9 +8,21 @@
         </v-card-title>
 
         <v-card-text class="p-4">
+            <v-card-title>
+                Nutrition
+                <div class="flex-grow-1"></div>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
+            </v-card-title>
             <v-data-table
                 :headers="headers"
                 :items="desserts"
+                :search="search"
                 :items-per-page="5"
                 class="elevation-1"
             ></v-data-table>
