@@ -10,15 +10,13 @@
 @import "~font-awesome";
 @import "util.css";
 @import "main.css";
-@import "~vue-material/dist/vue-material.min.css";
-@import "~vue-material/dist/theme/default.css";
+
+@import '~vuetify/dist/vuetify.min.css';
+@import '~@mdi/font/css/materialdesignicons.css';
+$color-pack: false;
+
+@import '~vuetify/src/styles/main.sass';
 
 .sidebar{
 
-}
-.md-content{
-    background: #e5e5e5 !important;
-}
-.md-table .md-table-fixed-header{
-    width:100% !important;
 }

@@ -1,77 +1,89 @@
 <template>
     <div>
-    <md-card>
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title">Users</div>
+    <v-card>
+        <v-card-title class="pink">
 
-            </md-card-header-text>
-        </md-card-header>
+                <div class="h2">Users</div>
 
-        <md-card-content >
-            <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header class="w-100">
-                <md-table-toolbar>
-                    <div class="md-toolbar-section-start">
-                        <h1 class="md-title">Users</h1>
-                    </div>
+        </v-card-title>
 
-                    <md-field md-clearable class="md-toolbar-section-end">
-                        <md-input placeholder="Search by name..." v-model="search" @input="searchOnTable"/>
-                    </md-field>
-                </md-table-toolbar>
+        <v-card-text class="p-4">
+            <v-data-table
+                :headers="headers"
+                :items="desserts"
+                :items-per-page="5"
+                class="elevation-1"
+            ></v-data-table>
+            <v-row justify="center">
+                <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+                    </template>
+                    <v-card>
+                        <v-toolbar dark color="primary">
+                            <v-btn icon dark @click="dialog = false">
+                                <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                            <v-toolbar-title>Settings</v-toolbar-title>
+                            <div class="flex-grow-1"></div>
+                            <v-toolbar-items>
+                                <v-btn dark text @click="dialog = false">Save</v-btn>
+                            </v-toolbar-items>
+                        </v-toolbar>
+                        <v-list three-line subheader>
+                            <v-subheader>User Controls</v-subheader>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title>Content filtering</v-list-item-title>
+                                    <v-list-item-subtitle>Set the content filtering level to restrict apps that can be downloaded</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title>Password</v-list-item-title>
+                                    <v-list-item-subtitle>Require password for purchase or use password to restrict purchase</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                        <v-divider></v-divider>
+                        <v-list three-line subheader>
+                            <v-subheader>General</v-subheader>
+                            <v-list-item>
+                                <v-list-item-action>
+                                    <v-checkbox v-model="notifications"></v-checkbox>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                    <v-list-item-title>Notifications</v-list-item-title>
+                                    <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-action>
+                                    <v-checkbox v-model="sound"></v-checkbox>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                    <v-list-item-title>Sound</v-list-item-title>
+                                    <v-list-item-subtitle>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-action>
+                                    <v-checkbox v-model="widgets"></v-checkbox>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                    <v-list-item-title>Auto-add widgets</v-list-item-title>
+                                    <v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-card>
+                </v-dialog>
+            </v-row>
+        </v-card-text>
 
-                <md-table-empty-state
-                        md-label="No users found"
-                        :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
-                    <md-button class="md-primary md-raised" @click="showDialog = true">Create New User</md-button>
-                </md-table-empty-state>
 
-                <md-table-row slot="md-table-row" slot-scope="{ item }" >
-                    <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-                    <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-                    <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
-                    <md-table-cell md-label="Gender" md-sort-by="gender">{{ item.gender }}</md-table-cell>
-                    <md-table-cell md-label="Job Title" md-sort-by="title">{{ item.title }}</md-table-cell>
-                </md-table-row>
-            </md-table>
-        </md-card-content>
+    </v-card>
 
-
-    </md-card>
-        <md-dialog :md-active.sync="showDialog">
-            <md-dialog-title>Preferences</md-dialog-title>
-
-           <md-dialog-content>
-               <md-field>
-                   <label>Name</label>
-                   <md-input v-model="form.name"></md-input>
-               </md-field>
-
-               <md-field >
-                   <label>Email</label>
-                   <md-input v-model="form.email" type="email"></md-input>
-               </md-field>
-
-               <md-field >
-                   <label>Title</label>
-                   <md-input v-model="form.title" type="text"></md-input>
-               </md-field>
-
-               <md-field >
-                   <label>Gender</label>
-                   <md-select v-model="form.gender" name="movie" id="movie">
-                       <md-option value="Female">Female</md-option>
-                       <md-option value="Male">Male</md-option>
-
-                   </md-select>
-               </md-field>
-           </md-dialog-content>
-
-            <md-dialog-actions>
-                <md-button class="md-primary" @click="showDialog = false">Close</md-button>
-                <md-button class="md-primary" @click="save()">Save</md-button>
-            </md-dialog-actions>
-        </md-dialog>
     </div>
 </template>
 
@@ -93,31 +105,102 @@
             search: null,
             searched: [],
             form:{},
-            users: [
+            headers: [
                 {
-                    id: 1,
-                    name: "Shawna Dubbin",
-                    email: "sdubbin0@geocities.com",
-                    gender: "Male",
-                    title: "Assistant Media Planner"
+                    text: 'Dessert (100g serving)',
+                    align: 'left',
+                    sortable: false,
+                    value: 'name',
                 },
-                {
-                    id: 2,
-                    name: "Odette Demageard",
-                    email: "odemageard1@spotify.com",
-                    gender: "Female",
-                    title: "Account Coordinator"
-                },
-                {
-                    id: 3,
-                    name: "Vera Taleworth",
-                    email: "vtaleworth2@google.ca",
-                    gender: "Male",
-                    title: "Community Outreach Specialist"
-                },
-
+                { text: 'Calories', value: 'calories' },
+                { text: 'Fat (g)', value: 'fat' },
+                { text: 'Carbs (g)', value: 'carbs' },
+                { text: 'Protein (g)', value: 'protein' },
+                { text: 'Iron (%)', value: 'iron' },
             ],
-            showDialog: false
+            desserts: [
+                {
+                    name: 'Frozen Yogurt',
+                    calories: 159,
+                    fat: 6.0,
+                    carbs: 24,
+                    protein: 4.0,
+                    iron: '1%',
+                },
+                {
+                    name: 'Ice cream sandwich',
+                    calories: 237,
+                    fat: 9.0,
+                    carbs: 37,
+                    protein: 4.3,
+                    iron: '1%',
+                },
+                {
+                    name: 'Eclair',
+                    calories: 262,
+                    fat: 16.0,
+                    carbs: 23,
+                    protein: 6.0,
+                    iron: '7%',
+                },
+                {
+                    name: 'Cupcake',
+                    calories: 305,
+                    fat: 3.7,
+                    carbs: 67,
+                    protein: 4.3,
+                    iron: '8%',
+                },
+                {
+                    name: 'Gingerbread',
+                    calories: 356,
+                    fat: 16.0,
+                    carbs: 49,
+                    protein: 3.9,
+                    iron: '16%',
+                },
+                {
+                    name: 'Jelly bean',
+                    calories: 375,
+                    fat: 0.0,
+                    carbs: 94,
+                    protein: 0.0,
+                    iron: '0%',
+                },
+                {
+                    name: 'Lollipop',
+                    calories: 392,
+                    fat: 0.2,
+                    carbs: 98,
+                    protein: 0,
+                    iron: '2%',
+                },
+                {
+                    name: 'Honeycomb',
+                    calories: 408,
+                    fat: 3.2,
+                    carbs: 87,
+                    protein: 6.5,
+                    iron: '45%',
+                },
+                {
+                    name: 'Donut',
+                    calories: 452,
+                    fat: 25.0,
+                    carbs: 51,
+                    protein: 4.9,
+                    iron: '22%',
+                },
+                {
+                    name: 'KitKat',
+                    calories: 518,
+                    fat: 26.0,
+                    carbs: 65,
+                    protein: 7,
+                    iron: '6%',
+                },
+            ],
+            dialog: false
 
         }),
         methods: {

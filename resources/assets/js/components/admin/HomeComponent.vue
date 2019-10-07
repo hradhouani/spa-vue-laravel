@@ -1,84 +1,125 @@
 <template>
-    <div class="page-container">
-        <md-app>
-            <md-app-toolbar class="md-primary">
-                <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
-                    <md-icon>menu</md-icon>
-                </md-button>
-                <div class="md-toolbar-section-start">
-                    <div class="logo">
-                        <a href="#">
-                            <img src="/images/icon/logo.png" alt="Cool Admin">
-                        </a>
-                    </div>
-                </div>
-                <div class="md-toolbar-section-end">
-                    <md-button class="md-icon-button">
-                        <md-icon>more_vert</md-icon>
-                    </md-button>
 
-                    <md-menu md-size="medium" md-align-trigger>
-                        <md-button  md-menu-trigger class="md-icon-button md-mini">
+    <v-app>
+        <v-navigation-drawer disable-resize-watcher app v-model="sidebar">
+            <v-system-bar class="pb-3 pt-2 text-center d-block">
+                <img data-v-48c2ebf7="" src="https://mdbootstrap.com/img/Marketing/other/logo/logo-mdb-vue-small.png" class="">
+            </v-system-bar>
+            <v-list class="text-center">
+                <v-list-item class="text-center d-block">
 
-                                <md-icon>account_circle</md-icon>
+                    <v-list-item-avatar size="80" class="m-0" >
+                        <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+                    </v-list-item-avatar>
+                </v-list-item>
 
-                        </md-button>
-                        <md-menu-content>
-                            <md-menu-item>My Item 1</md-menu-item>
-                            <md-menu-item>My Item 2</md-menu-item>
-                            <md-menu-item v-on:click="logout()">logout</md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </div>
-            </md-app-toolbar>
+                <v-list-item link>
+                    <v-list-item-content>
+                        <v-list-item-title class="title">John Leider</v-list-item-title>
+                        <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+                    </v-list-item-content>
 
-            <md-app-drawer :md-active.sync="menuVisible" md-persistent="full">
-                <md-toolbar class="md-transparent" md-elevation="0">
 
-                    <div class="md-toolbar-section-end">
-                        <md-button class="md-icon-button md-dense" @click="toggleMenu">
-                            <md-icon>keyboard_arrow_left</md-icon>
-                        </md-button>
-                    </div>
-                    <br>
-                </md-toolbar>
-                <div class="w-100  text-center">
-                    <md-avatar class="md-avatar-icon md-large md-accent">
-                        <md-ripple>MM</md-ripple>
-                    </md-avatar>
-                    <h2 class="mt-2 ng-star-inserted" style="">{{user.name}}</h2>
-                    <p class="secondary-text-color ng-star-inserted" style="">webmaster@gis.ch</p>
-                </div>
+                </v-list-item>
+            </v-list>
+            <v-divider></v-divider>
+            <v-list nav dense>
+                <v-list-item-group color="primary">
+                    <template v-for="(item, i) in items">
+                        <v-list-item :key="i" v-if="!item.sub" exact :to="{name:item.to}">
+                            <v-list-item-icon>
+                                <v-icon v-text="item.icon"></v-icon>
+                            </v-list-item-icon>
 
-                <md-list>
-                    <md-list-item exact :to="{name:'admin.home'}">
-                        <md-icon>move_to_inbox</md-icon>
-                        <span class="md-list-item-text">Inbox</span>
-                    </md-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="item.text"></v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-group v-else :prepend-icon="item.icon">
+                            <template v-slot:activator>
+                                <v-list-item-content :key="i">
+                                    <v-list-item-title v-text="item.text"></v-list-item-title>
+                                </v-list-item-content>
+                            </template>
+                            <template v-for=" (sub ,j) in item.sub">
+                                <v-list-item  :key="j">
+                                    <v-list-item-icon>
+                                        <v-icon></v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="sub.text"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </template>
+                        </v-list-group>
 
-                    <md-list-item exact :to="{name:'admin.users'}">
-                        <md-icon>send</md-icon>
-                        <span class="md-list-item-text">Sent Mail</span>
-                    </md-list-item>
+                    </template>
+                </v-list-item-group>
 
-                    <md-list-item>
-                        <md-icon>delete</md-icon>
-                        <span class="md-list-item-text">Trash</span>
-                    </md-list-item>
+            </v-list>
+            <!-- -->
+        </v-navigation-drawer>
 
-                    <md-list-item>
-                        <md-icon>error</md-icon>
-                        <span class="md-list-item-text">Spam</span>
-                    </md-list-item>
-                </md-list>
-            </md-app-drawer>
+        <v-app-bar app color="deep-purple accent-4" dark>
 
-            <md-app-content>
+            <v-app-bar-nav-icon @click="sidebar = !sidebar"></v-app-bar-nav-icon>
+
+            <v-toolbar-title>Page title</v-toolbar-title>
+
+            <div class="flex-grow-1"></div>
+
+            <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+            </v-btn>
+
+            <v-btn icon>
+                <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+
+            <v-menu
+                left
+                bottom
+                offset-y="true"
+            >
+                <template v-slot:activator="{ on }">
+                    <v-btn icon v-on="on">
+                        <v-icon>mdi-account-circle
+                        </v-icon>
+                    </v-btn>
+                </template>
+
+                <v-list>
+                    <v-list-item
+                        v-for="n in 5"
+                        :key="n"
+                        @click="() => {}"
+
+                    >
+                        <v-list-item-title>Option {{ n }}</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+
+            <!-- -->
+        </v-app-bar>
+
+        <!-- Sizes your content based upon application components -->
+        <v-content>
+
+            <!-- Provides the application the proper gutter -->
+            <v-container fluid>
+
+                <!-- If using vue-router -->
                 <router-view></router-view>
+            </v-container>
+        </v-content>
 
-            </md-app-content>
-        </md-app>
-    </div>
+        <v-footer app>
+            <!-- -->
+        </v-footer>
+    </v-app>
+
+
 </template>
 
 
@@ -86,12 +127,23 @@
     export default {
         name: 'PersistentFull',
         data: () => ({
-            menuVisible: true,
-            user: {}
+            sidebar: true,
+            user: {},
+            item: 0,
+            items: [
+                {text: 'Home', icon: 'mdi-home' ,to:'admin.home'},
+                {text: 'Users', icon: 'mdi-account-multiple' ,to:'admin.users'},
+                {text: 'Shared with me', icon: 'mdi-account-multiple',sub: [
+                        {text: 'Starred', icon: 'mdi-star' ,to:'admin.sub'},
+                        {text: 'Recent', icon: 'mdi-history'},
+                        {text: 'Offline', icon: 'mdi-check-circle'}
+                    ]},
+
+            ],
         }),
         mounted() {
             this.user = JSON.parse(localStorage.getItem('user'));
-            console.log(localStorage.getItem('user'), this.user);
+            console.log(this.items[0].sub);
         },
 
         methods: {

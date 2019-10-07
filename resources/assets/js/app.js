@@ -7,10 +7,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
 
-Vue.use(VueMaterial);
+import vuetify from './plugins/vuetify';
+
 import router from './router.js';
 
 
@@ -35,5 +34,6 @@ Vue.component('app-component', require('./components/AppComponent.vue').default)
 
 const app = new Vue({
     el: '#app',
+    vuetify,
     router
 });

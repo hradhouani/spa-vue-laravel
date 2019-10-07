@@ -1,32 +1,83 @@
 <template>
-    <md-card>
-        <md-card-header>
-            <md-card-header-text>
-                <div class="md-title">Media card</div>
-                <div class="md-subhead">Normal size</div>
-            </md-card-header-text>
-        </md-card-header>
+    <div>
+    <v-card class="mb-3">
+        <v-card-text class="purple lighten-4 " >
 
-            <md-card-content>
-                <md-field>
-                    <label>Initial Value</label>
-                    <md-input v-model="initial"></md-input>
-                </md-field>
-            </md-card-content>
+                <v-breadcrumbs  :items="items" divider=">"></v-breadcrumbs>
 
-        <md-card-actions>
-            <md-button>Action</md-button>
-            <md-button>Action</md-button>
-        </md-card-actions>
-    </md-card>
+        </v-card-text>
+    </v-card>
+    <v-card>
 
+
+            <v-card-text>
+
+                <v-row >
+                    <v-col cols="4">
+                        <v-card
+                            color="#385F73"
+                            dark
+                        >
+                            <v-card-text class="white--text">
+                                <div class="headline mb-2">Unlimited music now</div>
+                                Listen to your favorite artists and albums whenever and wherever, online and offline.
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-btn text>Listen Now</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="4">
+                        <v-card
+                            color="#385F73"
+                            dark
+                        >
+                            <v-card-text class="white--text">
+                                <div class="headline mb-2">Unlimited music now</div>
+                                Listen to your favorite artists and albums whenever and wherever, online and offline.
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-btn text>Listen Now</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>         <v-col cols="4">
+                        <v-card
+                            color="#385F73"
+                            dark
+                        >
+                            <v-card-text class="white--text">
+                                <div class="headline mb-2">Unlimited music now</div>
+                                Listen to your favorite artists and albums whenever and wherever, online and offline.
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-btn text>Listen Now</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+
+
+    </v-card>
+    </div>
 </template>
 
 <script>
     export default {
         name: "DashboardCoponent",
         data:()=>({
-            initial:""
+            initial:"",
+            items: [
+                {
+                    text: 'Dashboard',
+                    disabled: true,
+                    href: 'breadcrumbs_dashboard',
+                },
+
+            ],
         }),
 
     }

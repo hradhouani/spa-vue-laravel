@@ -9,21 +9,7 @@ import DashboardComponent from "./components/admin/DashboardCoponent";
 import UsersComponent from "./components/admin/UsersComponent";
 
 Vue.use(VueRouter);
-const Users = {
-    template: `
-    <div class="user">
-      <h2>Users</h2>
-    </div>
-  `
-};
 
-const Home = {
-    template: `
-    <div class="user">
-      <h2>User</h2>
-    </div>
-  `
-};
 
 const adminRoute=[
     {path: '/', component: DashboardComponent,  meta: {middleware: authMiddleware}, name: 'admin.home'},
