@@ -1,0 +1,24 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap';
+@import "~toastr";
+@import "~font-awesome";
+@import "util.css";
+@import "main.css";
+@import "~vue-material/dist/vue-material.min.css";
+@import "~vue-material/dist/theme/default.css";
+
+.sidebar{
+
+}
+.md-content{
+    background: #e5e5e5 !important;
+}
+.md-table .md-table-fixed-header{
+    width:100% !important;
+}
