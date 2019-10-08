@@ -2,14 +2,14 @@
 
     <v-app>
         <v-navigation-drawer disable-resize-watcher app v-model="sidebar">
-            <v-system-bar class="pb-3 pt-2 text-center d-block">
-                <img data-v-48c2ebf7="" src="https://mdbootstrap.com/img/Marketing/other/logo/logo-mdb-vue-small.png" class="">
+            <v-system-bar class="pb-5 pt-2  text-center d-block">
+                <img data-v-48c2ebf7="" src="/images/icon/logo.png" class="">
             </v-system-bar>
             <v-list class="text-center">
                 <v-list-item class="text-center d-block">
 
-                    <v-list-item-avatar size="80" class="m-0" >
-                        <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+                    <v-list-item-avatar size="80" class="m-0">
+                        <v-img src="/images/icon/avatar-03.jpg"></v-img>
                     </v-list-item-avatar>
                 </v-list-item>
 
@@ -42,7 +42,7 @@
                                 </v-list-item-content>
                             </template>
                             <template v-for=" (sub ,j) in item.sub">
-                                <v-list-item  :key="j">
+                                <v-list-item :key="j">
                                     <v-list-item-icon>
                                         <v-icon></v-icon>
                                     </v-list-item-icon>
@@ -64,7 +64,7 @@
 
             <v-app-bar-nav-icon @click="sidebar = !sidebar"></v-app-bar-nav-icon>
 
-            <v-toolbar-title>Page title</v-toolbar-title>
+            <v-toolbar-title>{{title}}</v-toolbar-title>
 
             <div class="flex-grow-1"></div>
 
@@ -77,9 +77,9 @@
             </v-btn>
 
             <v-menu
-                left
-                bottom
-                offset-y="true"
+                    left
+                    bottom
+                    :offset-y="true"
             >
                 <template v-slot:activator="{ on }">
                     <v-btn icon v-on="on">
@@ -88,16 +88,51 @@
                     </v-btn>
                 </template>
 
-                <v-list>
-                    <v-list-item
-                        v-for="n in 5"
-                        :key="n"
-                        @click="() => {}"
+                <v-card>
+                    <v-list>
+                        <v-list-item >
+                            <v-list-item-avatar size="60" >
+                                <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>John Leider</v-list-item-title>
+                                <v-list-item-subtitle>Founder of Vuetify.js</v-list-item-subtitle>
+                            </v-list-item-content>
 
-                    >
-                        <v-list-item-title>Option {{ n }}</v-list-item-title>
-                    </v-list-item>
-                </v-list>
+                        </v-list-item>
+
+
+                    </v-list>
+
+                    <v-divider></v-divider>
+                    <v-list>
+
+                            <v-list-item>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-account</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>Profile</v-list-item-title>
+                            </v-list-item>
+
+                            <v-list-item>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-settings</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>Setting</v-list-item-title>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-item @click="logout()">
+                                <v-list-item-icon>
+                                    <v-icon>mdi-logout</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>Log out</v-list-item-title>
+                            </v-list-item>
+
+
+                    </v-list>
+
+
+                </v-card>
             </v-menu>
 
             <!-- -->
@@ -107,11 +142,11 @@
         <v-content>
 
             <!-- Provides the application the proper gutter -->
-            <v-container fluid>
-
-                <!-- If using vue-router -->
+            <div class="container-fluid my-2">
                 <router-view></router-view>
-            </v-container>
+            </div>
+
+
         </v-content>
 
         <v-footer app>
@@ -127,23 +162,26 @@
     export default {
         name: 'PersistentFull',
         data: () => ({
-            sidebar: true,
+            sidebar: false,
             user: {},
             item: 0,
             items: [
-                {text: 'Home', icon: 'mdi-home' ,to:'admin.home'},
-                {text: 'Users', icon: 'mdi-account-multiple' ,to:'admin.users'},
-                {text: 'Shared with me', icon: 'mdi-account-multiple',sub: [
-                        {text: 'Starred', icon: 'mdi-star' ,to:'admin.sub'},
+                {text: 'Home', icon: 'mdi-home', to: 'admin.home'},
+                {text: 'Users', icon: 'mdi-account-multiple', to: 'admin.users'},
+                {
+                    text: 'Shared with me', icon: 'mdi-account-multiple', sub: [
+                        {text: 'Starred', icon: 'mdi-star', to: 'admin.sub'},
                         {text: 'Recent', icon: 'mdi-history'},
                         {text: 'Offline', icon: 'mdi-check-circle'}
-                    ]},
+                    ]
+                },
 
             ],
+
         }),
         mounted() {
             this.user = JSON.parse(localStorage.getItem('user'));
-            console.log(this.items[0].sub);
+            this.sidebar = true
         },
 
         methods: {
@@ -156,6 +194,11 @@
 
 
             }
+        },
+        computed: {
+            title() {
+                return this.$store.state.title
+            }
         }
     }
 
@@ -163,18 +206,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .page-container {
-        height: 100%;
-    }
 
-    .md-app {
-        height: 100%;
-        border: 1px solid rgba(#000, .12);
-    }
 
-    // Demo purposes only
-    .md-drawer {
-        width: 230px;
-        max-width: calc(100vw - 125px);
-    }
 </style>

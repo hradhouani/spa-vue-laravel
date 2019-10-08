@@ -3,11 +3,10 @@
 </template>
 
 <script>
+
     export default {
         name: "AppComponent",
-        mounted() {
-            console.log('AppComponent mounted.')
-        }
+
     }
 </script>
 

@@ -62,7 +62,7 @@
                             <v-subheader>General</v-subheader>
                             <v-list-item>
                                 <v-list-item-action>
-                                    <v-checkbox v-model="notifications"></v-checkbox>
+                                    <v-checkbox></v-checkbox>
                                 </v-list-item-action>
                                 <v-list-item-content>
                                     <v-list-item-title>Notifications</v-list-item-title>
@@ -71,7 +71,7 @@
                             </v-list-item>
                             <v-list-item>
                                 <v-list-item-action>
-                                    <v-checkbox v-model="sound"></v-checkbox>
+                                    <v-checkbox ></v-checkbox>
                                 </v-list-item-action>
                                 <v-list-item-content>
                                     <v-list-item-title>Sound</v-list-item-title>
@@ -80,7 +80,7 @@
                             </v-list-item>
                             <v-list-item>
                                 <v-list-item-action>
-                                    <v-checkbox v-model="widgets"></v-checkbox>
+                                    <v-checkbox ></v-checkbox>
                                 </v-list-item-action>
                                 <v-list-item-content>
                                     <v-list-item-title>Auto-add widgets</v-list-item-title>
@@ -100,17 +100,7 @@
 </template>
 
 <script>
-    const toLower = text => {
-        return text.toString().toLowerCase()
-    }
 
-    const searchByName = (items, term) => {
-        if (term) {
-            return items.filter(item => toLower(item.name).includes(toLower(term)))
-        }
-
-        return items
-    }
     export default {
         name: "UsersCoponent",
         data: () => ({
@@ -235,6 +225,9 @@
         },
         created () {
             this.searched = this.users
+        },
+        mounted() {
+            this.$store.state.title="Users";
         }
     }
 </script>

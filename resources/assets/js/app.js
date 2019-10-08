@@ -11,6 +11,10 @@ window.Vue = require('vue');
 import vuetify from './plugins/vuetify';
 
 import router from './router.js';
+import store from './store/store'
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
 
 
 /**
@@ -35,5 +39,6 @@ Vue.component('app-component', require('./components/AppComponent.vue').default)
 const app = new Vue({
     el: '#app',
     vuetify,
+    store,
     router
 });
