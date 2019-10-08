@@ -1897,6 +1897,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _models_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/User */ "./resources/assets/js/models/User.js");
 //
 //
 //
@@ -1913,11 +1914,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
-});
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -1930,14 +1928,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2474,104 +2464,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UsersCoponent",
   data: function data() {
     return {
       search: null,
       searched: [],
+      overlay: true,
       form: {},
+      users: [],
       headers: [{
-        text: 'Dessert (100g serving)',
+        text: '#',
         align: 'left',
         sortable: false,
+        value: 'id'
+      }, {
+        text: 'name',
         value: 'name'
       }, {
-        text: 'Calories',
-        value: 'calories'
-      }, {
-        text: 'Fat (g)',
-        value: 'fat'
-      }, {
-        text: 'Carbs (g)',
-        value: 'carbs'
-      }, {
-        text: 'Protein (g)',
-        value: 'protein'
-      }, {
-        text: 'Iron (%)',
-        value: 'iron'
-      }],
-      desserts: [{
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: '1%'
-      }, {
-        name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: '1%'
-      }, {
-        name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: '7%'
-      }, {
-        name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: '8%'
-      }, {
-        name: 'Gingerbread',
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: '16%'
-      }, {
-        name: 'Jelly bean',
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        iron: '0%'
-      }, {
-        name: 'Lollipop',
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        iron: '2%'
-      }, {
-        name: 'Honeycomb',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: '45%'
-      }, {
-        name: 'Donut',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: '22%'
-      }, {
-        name: 'KitKat',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: '6%'
+        text: 'email',
+        value: 'email'
       }],
       dialog: false
     };
@@ -2597,7 +2511,13 @@ __webpack_require__.r(__webpack_exports__);
     this.searched = this.users;
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.$store.state.title = "Users";
+    axios.get("/api/users").then(function (res) {
+      _this.users = res.users;
+      _this.overlay = false;
+    });
   }
 });
 
@@ -38722,79 +38642,27 @@ var render = function() {
               _vm._v("\n\t\t\t\t\t\tLogin to continue\n\t\t\t\t\t")
             ]),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "wrap-input100 validate-input",
-                attrs: {
-                  "data-validate": "Valid email is required: ex@abc.xyz"
-                }
-              },
-              [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.login.email,
-                      expression: "login.email"
-                    }
-                  ],
-                  staticClass: "input100",
-                  attrs: { type: "text", name: "email", required: "" },
-                  domProps: { value: _vm.login.email },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.login, "email", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "focus-input100" }),
-                _vm._v(" "),
-                _c("span", { staticClass: "label-input100" }, [_vm._v("Email")])
-              ]
-            ),
+            _c("v-text-field", {
+              attrs: { label: "Email", type: "email" },
+              model: {
+                value: _vm.login.email,
+                callback: function($$v) {
+                  _vm.$set(_vm.login, "email", $$v)
+                },
+                expression: "login.email"
+              }
+            }),
             _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "wrap-input100 validate-input",
-                attrs: { "data-validate": "Password is required" }
-              },
-              [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.login.password,
-                      expression: "login.password"
-                    }
-                  ],
-                  staticClass: "input100",
-                  attrs: { type: "password", name: "pass", required: "" },
-                  domProps: { value: _vm.login.password },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.login, "password", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "focus-input100" }),
-                _vm._v(" "),
-                _c("span", { staticClass: "label-input100" }, [
-                  _vm._v("Password")
-                ])
-              ]
-            ),
+            _c("v-text-field", {
+              attrs: { label: "Password", type: "password" },
+              model: {
+                value: _vm.login.password,
+                callback: function($$v) {
+                  _vm.$set(_vm.login, "password", $$v)
+                },
+                expression: "login.password"
+              }
+            }),
             _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
@@ -38822,7 +38690,8 @@ var render = function() {
             _vm._m(1),
             _vm._v(" "),
             _vm._m(2)
-          ]
+          ],
+          1
         ),
         _vm._v(" "),
         _c("div", {
@@ -39492,291 +39361,339 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-card",
-        [
-          _c("v-card-title", { staticClass: "pink" }, [
-            _c("div", { staticClass: "h2" }, [_vm._v("Users")])
-          ]),
-          _vm._v(" "),
-          _c(
-            "v-card-text",
-            { staticClass: "p-4" },
+      !_vm.overlay
+        ? _c(
+            "v-card",
             [
               _c(
-                "v-card-title",
-                [
-                  _vm._v("\n            Nutrition\n            "),
-                  _c("div", { staticClass: "flex-grow-1" }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      "append-icon": "search",
-                      label: "Search",
-                      "single-line": "",
-                      "hide-details": ""
-                    },
-                    model: {
-                      value: _vm.search,
-                      callback: function($$v) {
-                        _vm.search = $$v
-                      },
-                      expression: "search"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-data-table", {
-                staticClass: "elevation-1",
-                attrs: {
-                  headers: _vm.headers,
-                  items: _vm.desserts,
-                  search: _vm.search,
-                  "items-per-page": 5
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                { attrs: { justify: "center" } },
+                "v-card-text",
+                { staticClass: "p-4" },
                 [
                   _c(
-                    "v-dialog",
-                    {
-                      attrs: {
-                        fullscreen: "",
-                        "hide-overlay": "",
-                        transition: "dialog-bottom-transition"
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "activator",
-                          fn: function(ref) {
-                            var on = ref.on
-                            return [
-                              _c(
-                                "v-btn",
-                                _vm._g(
-                                  { attrs: { color: "primary", dark: "" } },
-                                  on
-                                ),
-                                [_vm._v("Open Dialog")]
-                              )
-                            ]
-                          }
-                        }
-                      ]),
-                      model: {
-                        value: _vm.dialog,
-                        callback: function($$v) {
-                          _vm.dialog = $$v
-                        },
-                        expression: "dialog"
-                      }
-                    },
+                    "v-card-title",
                     [
+                      _c("div", { staticClass: "flex-grow-1" }),
                       _vm._v(" "),
-                      _c(
-                        "v-card",
-                        [
-                          _c(
-                            "v-toolbar",
-                            { attrs: { dark: "", color: "primary" } },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "", dark: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.dialog = false
-                                    }
-                                  }
-                                },
-                                [_c("v-icon", [_vm._v("mdi-close")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("v-toolbar-title", [_vm._v("Settings")]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "flex-grow-1" }),
-                              _vm._v(" "),
-                              _c(
-                                "v-toolbar-items",
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { dark: "", text: "" },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.dialog = false
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Save")]
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            { attrs: { "three-line": "", subheader: "" } },
-                            [
-                              _c("v-subheader", [_vm._v("User Controls")]),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Content filtering")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Set the content filtering level to restrict apps that can be downloaded"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Password")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Require password for purchase or use password to restrict purchase"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            { attrs: { "three-line": "", subheader: "" } },
-                            [
-                              _c("v-subheader", [_vm._v("General")]),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [_c("v-checkbox")],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Notifications")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Notify me about updates to apps or games that I downloaded"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [_c("v-checkbox")],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Sound")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Auto-update apps at any time. Data charges may apply"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [_c("v-checkbox")],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Auto-add widgets")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Automatically add home screen widgets"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
+                      _c("v-text-field", {
+                        attrs: {
+                          "append-icon": "search",
+                          label: "Search",
+                          "single-line": "",
+                          "hide-details": ""
+                        },
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      })
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c("v-data-table", {
+                    staticClass: "elevation-1",
+                    attrs: {
+                      headers: _vm.headers,
+                      items: _vm.users,
+                      search: _vm.search,
+                      "items-per-page": 5
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { attrs: { justify: "center" } },
+                    [
+                      [
+                        _c(
+                          "v-row",
+                          { staticClass: "mt-3 ml-1" },
+                          [
+                            _c(
+                              "v-dialog",
+                              {
+                                attrs: { persistent: "", "max-width": "600px" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c(
+                                            "v-btn",
+                                            _vm._g(
+                                              {
+                                                attrs: {
+                                                  color: "primary",
+                                                  dark: "",
+                                                  fab: "",
+                                                  "x-large": ""
+                                                }
+                                              },
+                                              on
+                                            ),
+                                            [
+                                              _c("v-icon", [_vm._v("mdi-plus")])
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  3681182240
+                                ),
+                                model: {
+                                  value: _vm.dialog,
+                                  callback: function($$v) {
+                                    _vm.dialog = $$v
+                                  },
+                                  expression: "dialog"
+                                }
+                              },
+                              [
+                                _vm._v(" "),
+                                _c(
+                                  "v-card",
+                                  [
+                                    _c("v-card-title", [
+                                      _c("span", { staticClass: "headline" }, [
+                                        _vm._v("User Profile")
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-card-text",
+                                      [
+                                        _c(
+                                          "v-container",
+                                          [
+                                            _c(
+                                              "v-row",
+                                              [
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label:
+                                                          "Legal first name*",
+                                                        required: ""
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label:
+                                                          "Legal middle name",
+                                                        hint:
+                                                          "example of helper text only on focus"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6",
+                                                      md: "4"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label:
+                                                          "Legal last name*",
+                                                        hint:
+                                                          "example of persistent helper text",
+                                                        "persistent-hint": "",
+                                                        required: ""
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  { attrs: { cols: "12" } },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label: "Email*",
+                                                        required: ""
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  { attrs: { cols: "12" } },
+                                                  [
+                                                    _c("v-text-field", {
+                                                      attrs: {
+                                                        label: "Password*",
+                                                        type: "password",
+                                                        required: ""
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-select", {
+                                                      attrs: {
+                                                        items: [
+                                                          "0-17",
+                                                          "18-29",
+                                                          "30-54",
+                                                          "54+"
+                                                        ],
+                                                        label: "Age*",
+                                                        required: ""
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-col",
+                                                  {
+                                                    attrs: {
+                                                      cols: "12",
+                                                      sm: "6"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-autocomplete", {
+                                                      attrs: {
+                                                        items: [
+                                                          "Skiing",
+                                                          "Ice hockey",
+                                                          "Soccer",
+                                                          "Basketball",
+                                                          "Hockey",
+                                                          "Reading",
+                                                          "Writing",
+                                                          "Coding",
+                                                          "Basejump"
+                                                        ],
+                                                        label: "Interests",
+                                                        multiple: ""
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c("small", [
+                                          _vm._v("*indicates required field")
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-card-actions",
+                                      [
+                                        _c("div", {
+                                          staticClass: "flex-grow-1"
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              color: "blue darken-1",
+                                              text: ""
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.dialog = false
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Close")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: {
+                                              color: "blue darken-1",
+                                              text: ""
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.dialog = false
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Save")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    ],
+                    2
                   )
                 ],
                 1
@@ -39784,6 +39701,15 @@ var render = function() {
             ],
             1
           )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-overlay",
+        { attrs: { value: _vm.overlay, dark: "", "z-index": "1000000" } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" }
+          })
         ],
         1
       )
@@ -93207,21 +93133,6 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  * code may be modified to fit the specific needs of your application.
  */
 
-/*
-
-
-
-
-
-    <script src="/vendor/select2/select2.min.js">
-    </script>
-    <script src="/vendor/vector-map/jquery.vmap.js"></script>
-    <script src="/vendor/vector-map/jquery.vmap.min.js"></script>
-    <script src="/vendor/vector-map/jquery.vmap.sampledata.js"></script>
-    <script src="/vendor/vector-map/jquery.vmap.world.js"></script>
-
- */
-
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -93230,24 +93141,10 @@ try {
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 
-  __webpack_require__(/*! ./scripts */ "./resources/assets/js/scripts.js");
-
   window.toastr = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
 
   __webpack_require__(/*! ./helpers/axios */ "./resources/assets/js/helpers/axios.js");
 } catch (e) {}
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
-
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -93750,6 +93647,29 @@ function log(_ref) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/models/User.js":
+/*!********************************************!*\
+  !*** ./resources/assets/js/models/User.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return User; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var User = function User(name, email) {
+  _classCallCheck(this, User);
+
+  this.name = name;
+  this.email = email;
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/plugins/vuetify.js":
 /*!************************************************!*\
   !*** ./resources/assets/js/plugins/vuetify.js ***!
@@ -93835,7 +93755,6 @@ var routes = [{
 }, {
   path: '/administration/',
   component: _components_admin_HomeComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
-  name: 'admin',
   children: adminRoute
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
@@ -93880,27 +93799,6 @@ router.beforeEach(function (to, from, next) {
   return next();
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
-
-/***/ }),
-
-/***/ "./resources/assets/js/scripts.js":
-/*!****************************************!*\
-  !*** ./resources/assets/js/scripts.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-$(document).ready(function () {
-  $('.input100').each(function () {
-    $(this).on('blur', function () {
-      if ($(this).val().trim() != "") {
-        $(this).addClass('has-val');
-      } else {
-        $(this).removeClass('has-val');
-      }
-    });
-  });
-});
 
 /***/ }),
 

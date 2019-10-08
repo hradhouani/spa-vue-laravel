@@ -15,9 +15,8 @@
 </template>
 
 <script>
+    import User from '../models/User';
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+
     }
 </script>

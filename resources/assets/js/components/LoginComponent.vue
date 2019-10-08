@@ -10,18 +10,10 @@
 					</span>
 
 
-                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        <input class="input100" v-model="login.email" type="text" name="email" required>
-                        <span class="focus-input100"></span>
-                        <span class="label-input100">Email</span>
-                    </div>
+                        <v-text-field label="Email" v-model="login.email" type="email"></v-text-field>
+                        <v-text-field label="Password" v-model="login.password" type="password"></v-text-field>
 
 
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" v-model="login.password" type="password" name="pass" required>
-                        <span class="focus-input100"></span>
-                        <span class="label-input100">Password</span>
-                    </div>
 
                     <div class="flex-sb-m w-full p-t-3 p-b-32">
                         <div class="contact100-form-checkbox">

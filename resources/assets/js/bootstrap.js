@@ -5,20 +5,6 @@ window._ = require('lodash');
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
-/*
-
-
-
-
-
-    <script src="/vendor/select2/select2.min.js">
-    </script>
-    <script src="/vendor/vector-map/jquery.vmap.js"></script>
-    <script src="/vendor/vector-map/jquery.vmap.min.js"></script>
-    <script src="/vendor/vector-map/jquery.vmap.sampledata.js"></script>
-    <script src="/vendor/vector-map/jquery.vmap.world.js"></script>
-
- */
 
 try {
     window.Popper = require('popper.js').default;
@@ -26,7 +12,6 @@ try {
 
     require('animsition/dist/js/animsition.min');
     require('bootstrap');
-    require('./scripts');
 
     window.toastr = require('toastr');
 
@@ -34,19 +19,7 @@ try {
 
 } catch (e) {}
 
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 
-
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
 
 
 /**

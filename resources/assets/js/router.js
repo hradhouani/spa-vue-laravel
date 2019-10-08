@@ -19,7 +19,7 @@ const adminRoute=[
 const routes = [
     {path: '/', component: HomeComponent, name: 'home'},
     {path: '/login', component: LoginComponent, name: 'login' ,meta: {middleware: guestMiddleware}},
-    {path: '/administration/', component: AdminComponent, name: 'admin' ,children:adminRoute}
+    {path: '/administration/', component: AdminComponent ,children:adminRoute}
 ];
 
 
