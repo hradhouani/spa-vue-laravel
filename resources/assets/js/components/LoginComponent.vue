@@ -101,5 +101,5 @@
 </script>
 
 <style scoped>
-
+    @import "../../styles/main.css";
 </style>
