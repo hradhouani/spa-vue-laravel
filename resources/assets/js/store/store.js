@@ -1,11 +1,15 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
+import User from '../Models/User';
+
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        title: "undefiend"
+        title: "undefiend",
+        user: {name:'',email:''}
     },
 
     getters: {
@@ -13,13 +17,16 @@ export default new Vuex.Store({
     },
 
     mutations: {
-        setTitle(title) {
+        setTitle :(state,title)=> state.title = title,
+        setUser :(state,user)=> state.user =new User(user)
 
-            state.title=title;
-        }
     },
 
     actions: {
-        // Here we will create Larry
+        setUserAction ({commit,state}, payload) {
+
+            commit('setUser',payload);
+
+        }
     }
 });

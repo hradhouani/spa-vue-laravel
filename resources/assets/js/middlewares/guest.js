@@ -1,6 +1,6 @@
-export default function log({ next, router }) {
+export default function log(to, from, next) {
 
 
-    if(localStorage.getItem('token')) return router.push({ name: 'home' });
+    if(localStorage.getItem('token')) return next({ name: 'home' });
     return next();
 }

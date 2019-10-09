@@ -2,12 +2,12 @@ window.axios = require('axios');
 
 
 
-
-
 window.axios.interceptors.request.use(
     config => {
-        const JWTtoken = "Bearer "+localStorage.getItem('token');
-        config.headers.authorization = JWTtoken;
+
+        const token = "Bearer "+localStorage.getItem('token');
+        config.headers.authorization = token;
+        config.baseURL= process.env.MIX_APP_URL;
         return config;
     });
 window.axios.interceptors.response.use(

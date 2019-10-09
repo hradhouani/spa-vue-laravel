@@ -1897,7 +1897,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _models_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/User */ "./resources/assets/js/models/User.js");
 //
 //
 //
@@ -1914,7 +1913,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -2014,10 +2012,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.isSubmited = true;
-      axios.post('/api/auth/login', this.login).then(function (res) {
+      axios.post('auth/login', this.login).then(function (res) {
         if (res) {
           localStorage.setItem('token', res.data.token);
-          localStorage.setItem('user', JSON.stringify(res.data.user));
           return _this.$router.push({
             name: 'admin.home'
           });
@@ -2123,7 +2120,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.$store.state.title = "Dashboard";
+    this.$store.commit("setTitle", "Dashboard");
   }
 });
 
@@ -2303,7 +2300,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sidebar: false,
-      user: {},
       item: 0,
       items: [{
         text: 'Home',
@@ -2331,7 +2327,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.user = JSON.parse(localStorage.getItem('user'));
     this.sidebar = true;
   },
   methods: {
@@ -2348,6 +2343,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     title: function title() {
       return this.$store.state.title;
+    },
+    user: function user() {
+      return this.$store.state.user;
     }
   }
 });
@@ -2513,8 +2511,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    this.$store.state.title = "Users";
-    axios.get("/api/users").then(function (res) {
+    this.$store.commit("setTitle", "Users");
+    axios.get("users").then(function (res) {
       _this.users = res.users;
       _this.overlay = false;
     });
@@ -39724,10 +39722,12 @@ var render = function() {
                     "v-list-item-content",
                     [
                       _c("v-list-item-title", { staticClass: "title" }, [
-                        _vm._v("John Leider")
+                        _vm._v(_vm._s(_vm.user.name))
                       ]),
                       _vm._v(" "),
-                      _c("v-list-item-subtitle", [_vm._v("john@vuetifyjs.com")])
+                      _c("v-list-item-subtitle", [
+                        _vm._v(_vm._s(_vm.user.email))
+                      ])
                     ],
                     1
                   )
@@ -39931,10 +39931,12 @@ var render = function() {
                           _c(
                             "v-list-item-content",
                             [
-                              _c("v-list-item-title", [_vm._v("John Leider")]),
+                              _c("v-list-item-title", [
+                                _vm._v(_vm._s(_vm.user.name))
+                              ]),
                               _vm._v(" "),
                               _c("v-list-item-subtitle", [
-                                _vm._v("Founder of Vuetify.js")
+                                _vm._v(_vm._s(_vm.user.email))
                               ])
                             ],
                             1
@@ -93834,6 +93836,29 @@ module.exports = "/fonts/Poppins-SemiBold.ttf?e63b93dfac2600782654e2b87910d681";
 
 /***/ }),
 
+/***/ "./resources/assets/js/Models/User.js":
+/*!********************************************!*\
+  !*** ./resources/assets/js/Models/User.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return User; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var User = function User(user) {
+  _classCallCheck(this, User);
+
+  this.name = user.name;
+  this.email = user.email;
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/app.js":
 /*!************************************!*\
   !*** ./resources/assets/js/app.js ***!
@@ -94371,8 +94396,9 @@ __webpack_require__.r(__webpack_exports__);
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.interceptors.request.use(function (config) {
-  var JWTtoken = "Bearer " + localStorage.getItem('token');
-  config.headers.authorization = JWTtoken;
+  var token = "Bearer " + localStorage.getItem('token');
+  config.headers.authorization = token;
+  config.baseURL = "http://127.0.0.1:8000/api/";
   return config;
 });
 window.axios.interceptors.response.use(function (response) {
@@ -94398,17 +94424,23 @@ window.axios.interceptors.response.use(function (response) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return log; });
-function log(_ref) {
-  var next = _ref.next,
-      router = _ref.router;
-  if (!localStorage.getItem('token')) return router.push({
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return auth; });
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/store */ "./resources/assets/js/store/store.js");
+
+function auth(to, from, next) {
+  if (!localStorage.getItem('token')) return next({
     name: 'login'
   });
-  window.axios.get('/api/user')["catch"](function (error) {
-    console.error('error');
+  window.axios.get('user').then(function (res) {
+    return _store_store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("setUserAction", res);
+  })["catch"](function () {
+    localStorage.clear();
+    next({
+      name: 'login'
+    });
+  })["finally"](function () {
+    return next();
   });
-  return next();
 }
 
 /***/ }),
@@ -94423,37 +94455,12 @@ function log(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return log; });
-function log(_ref) {
-  var next = _ref.next,
-      router = _ref.router;
-  if (localStorage.getItem('token')) return router.push({
+function log(to, from, next) {
+  if (localStorage.getItem('token')) return next({
     name: 'home'
   });
   return next();
 }
-
-/***/ }),
-
-/***/ "./resources/assets/js/models/User.js":
-/*!********************************************!*\
-  !*** ./resources/assets/js/models/User.js ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return User; });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var User = function User(name, email) {
-  _classCallCheck(this, User);
-
-  this.name = name;
-  this.email = email;
-};
-
-
 
 /***/ }),
 
@@ -94497,12 +94504,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _middlewares_guest__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./middlewares/guest */ "./resources/assets/js/middlewares/guest.js");
 /* harmony import */ var _components_admin_DashboardCoponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/admin/DashboardCoponent */ "./resources/assets/js/components/admin/DashboardCoponent.vue");
 /* harmony import */ var _components_admin_UsersComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/admin/UsersComponent */ "./resources/assets/js/components/admin/UsersComponent.vue");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -94516,16 +94517,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 var adminRoute = [{
   path: '/',
   component: _components_admin_DashboardCoponent__WEBPACK_IMPORTED_MODULE_7__["default"],
-  meta: {
-    middleware: _middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["default"]
-  },
   name: 'admin.home'
 }, {
   path: 'users',
   component: _components_admin_UsersComponent__WEBPACK_IMPORTED_MODULE_8__["default"],
-  meta: {
-    middleware: _middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["default"]
-  },
   name: 'admin.users'
 }];
 var routes = [{
@@ -94536,54 +94531,17 @@ var routes = [{
   path: '/login',
   component: _components_LoginComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: 'login',
-  meta: {
-    middleware: _middlewares_guest__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }
+  beforeEnter: _middlewares_guest__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
   path: '/administration/',
   component: _components_admin_HomeComponent__WEBPACK_IMPORTED_MODULE_3__["default"],
+  beforeEnter: _middlewares_auth__WEBPACK_IMPORTED_MODULE_5__["default"],
   children: adminRoute
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,
-  // short for `routes: routes`
   hashbang: false,
   mode: 'history'
-});
-
-function nextFactory(context, middleware, index) {
-  var subsequentMiddleware = middleware[index]; // If no subsequent Middleware exists,
-  // the default `next()` callback is returned.
-
-  if (!subsequentMiddleware) return context.next;
-  return function () {
-    // Run the default Vue Router `next()` callback first.
-    context.next.apply(context, arguments); // Than run the subsequent Middleware with a new
-    // `nextMiddleware()` callback.
-
-    var nextMiddleware = nextFactory(context, middleware, index + 1);
-    subsequentMiddleware(_objectSpread({}, context, {
-      next: nextMiddleware
-    }));
-  };
-}
-
-router.beforeEach(function (to, from, next) {
-  if (to.meta.middleware) {
-    var middleware = Array.isArray(to.meta.middleware) ? to.meta.middleware : [to.meta.middleware];
-    var context = {
-      from: from,
-      next: next,
-      router: router,
-      to: to
-    };
-    var nextMiddleware = nextFactory(context, middleware, 1);
-    return middleware[0](_objectSpread({}, context, {
-      next: nextMiddleware
-    }));
-  }
-
-  return next();
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -94601,21 +94559,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Models_User__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Models/User */ "./resources/assets/js/Models/User.js");
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
   state: {
-    title: "undefiend"
+    title: "undefiend",
+    user: {
+      name: '',
+      email: ''
+    }
   },
   getters: {// Here we will create a getter
   },
   mutations: {
-    setTitle: function setTitle(title) {
-      state.title = title;
+    setTitle: function setTitle(state, title) {
+      return state.title = title;
+    },
+    setUser: function setUser(state, user) {
+      return state.user = new _Models_User__WEBPACK_IMPORTED_MODULE_2__["default"](user);
     }
   },
-  actions: {// Here we will create Larry
+  actions: {
+    setUserAction: function setUserAction(_ref, payload) {
+      var commit = _ref.commit,
+          state = _ref.state;
+      commit('setUser', payload);
+    }
   }
 }));
 

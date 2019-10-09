@@ -15,8 +15,8 @@
 
                 <v-list-item link>
                     <v-list-item-content>
-                        <v-list-item-title class="title">John Leider</v-list-item-title>
-                        <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+                        <v-list-item-title class="title">{{user.name}}</v-list-item-title>
+                        <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
                     </v-list-item-content>
 
 
@@ -90,13 +90,13 @@
 
                 <v-card>
                     <v-list>
-                        <v-list-item >
-                            <v-list-item-avatar size="60" >
+                        <v-list-item>
+                            <v-list-item-avatar size="60">
                                 <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title>John Leider</v-list-item-title>
-                                <v-list-item-subtitle>Founder of Vuetify.js</v-list-item-subtitle>
+                                <v-list-item-title>{{user.name}}</v-list-item-title>
+                                <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
                             </v-list-item-content>
 
                         </v-list-item>
@@ -107,26 +107,26 @@
                     <v-divider></v-divider>
                     <v-list>
 
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>mdi-account</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>Profile</v-list-item-title>
-                            </v-list-item>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-account</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Profile</v-list-item-title>
+                        </v-list-item>
 
-                            <v-list-item>
-                                <v-list-item-icon>
-                                    <v-icon>mdi-settings</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>Setting</v-list-item-title>
-                            </v-list-item>
-                            <v-divider></v-divider>
-                            <v-list-item @click="logout()">
-                                <v-list-item-icon>
-                                    <v-icon>mdi-logout</v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-title>Log out</v-list-item-title>
-                            </v-list-item>
+                        <v-list-item>
+                            <v-list-item-icon>
+                                <v-icon>mdi-settings</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Setting</v-list-item-title>
+                        </v-list-item>
+                        <v-divider></v-divider>
+                        <v-list-item @click="logout()">
+                            <v-list-item-icon>
+                                <v-icon>mdi-logout</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>Log out</v-list-item-title>
+                        </v-list-item>
 
 
                     </v-list>
@@ -163,7 +163,6 @@
         name: 'PersistentFull',
         data: () => ({
             sidebar: false,
-            user: {},
             item: 0,
             items: [
                 {text: 'Home', icon: 'mdi-home', to: 'admin.home'},
@@ -180,7 +179,7 @@
 
         }),
         mounted() {
-            this.user = JSON.parse(localStorage.getItem('user'));
+
             this.sidebar = true
         },
 
@@ -198,6 +197,9 @@
         computed: {
             title() {
                 return this.$store.state.title
+            } ,
+            user() {
+                return this.$store.state.user
             }
         }
     }

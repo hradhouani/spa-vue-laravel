@@ -15,6 +15,7 @@ try {
 
     window.toastr = require('toastr');
 
+
     require('./helpers/axios');
 
 } catch (e) {}

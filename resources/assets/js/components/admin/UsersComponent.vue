@@ -147,8 +147,8 @@
             this.searched = this.users
         },
         mounted() {
-            this.$store.state.title = "Users";
-            axios.get("/api/users").then((res) =>{
+            this.$store.commit("setTitle","Users") ;
+            axios.get("users").then((res) =>{
                this.users=res.users
                 this.overlay=false;
 

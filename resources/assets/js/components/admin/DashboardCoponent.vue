@@ -85,7 +85,8 @@
             }]
         }),
         mounted() {
-            this.$store.state.title = "Dashboard";
+            this.$store.commit("setTitle","Dashboard") ;
+
 
         }
 

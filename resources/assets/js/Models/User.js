@@ -2,9 +2,9 @@
 export default class User {
 
 
-    constructor(name,email){
-        this.name=name;
-        this.email=email;
+    constructor(user){
+        this.name=user.name;
+        this.email=user.email;
     }
 }
 

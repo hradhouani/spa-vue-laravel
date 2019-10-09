@@ -84,11 +84,10 @@
         methods: {
             loginFrom() {
                 this.isSubmited=true;
-                axios.post('/api/auth/login', this.login)
+                axios.post('auth/login', this.login)
                     .then(res => {
                             if (res) {
                                 localStorage.setItem('token', res.data.token);
-                                localStorage.setItem('user', JSON.stringify(res.data.user));
                                 return  this.$router.push({ name: 'admin.home' });
                             }
                         }
