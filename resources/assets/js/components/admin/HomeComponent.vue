@@ -16,7 +16,7 @@
                 <v-list-item link>
                     <v-list-item-content>
                         <v-list-item-title class="title">{{user.name}}</v-list-item-title>
-                        <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
+                        <v-list-item-subtitle class="text-white">{{user.email}}</v-list-item-subtitle>
                     </v-list-item-content>
 
 
@@ -60,7 +60,7 @@
             <!-- -->
         </v-navigation-drawer>
 
-        <v-app-bar app color="deep-purple accent-4" dark>
+        <v-app-bar app color="cyan darken-3 accent-4" dark>
 
             <v-app-bar-nav-icon @click="sidebar = !sidebar"></v-app-bar-nav-icon>
 
@@ -77,9 +77,9 @@
             </v-btn>
 
             <v-menu
-                    left
-                    bottom
-                    :offset-y="true"
+                left
+                bottom
+                :offset-y="true"
             >
                 <template v-slot:activator="{ on }">
                     <v-btn icon v-on="on">
@@ -89,22 +89,7 @@
                 </template>
 
                 <v-card>
-                    <v-list>
-                        <v-list-item>
-                            <v-list-item-avatar size="60">
-                                <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title>{{user.name}}</v-list-item-title>
-                                <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
-                            </v-list-item-content>
 
-                        </v-list-item>
-
-
-                    </v-list>
-
-                    <v-divider></v-divider>
                     <v-list>
 
                         <v-list-item>
@@ -197,7 +182,7 @@
         computed: {
             title() {
                 return this.$store.state.title
-            } ,
+            },
             user() {
                 return this.$store.state.user
             }

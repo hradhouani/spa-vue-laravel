@@ -13,8 +13,8 @@ import vuetify from './plugins/vuetify';
 import router from './router.js';
 import store from './store/store'
 import VueApexCharts from 'vue-apexcharts'
-Vue.use(VueApexCharts)
-Vue.component('apexchart', VueApexCharts)
+Vue.use(VueApexCharts);
+Vue.component('apexchart', VueApexCharts);
 
 
 /**
